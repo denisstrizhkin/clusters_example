@@ -7,8 +7,7 @@ import numpy as np
 MPI_CORES = 1
 OMP_THREADS = 4
 OUT_DIR = Path('results')
-INPUT_FILE = Path('input_files/fall700.input.data')
-INPUT_DIR = Path('input_files')
+INPUT_FILE = Path('fall700.input.data')
 ZERO_LVL = 83.391
 LATTICE = 5.43
 
@@ -57,7 +56,7 @@ for i in range(1):
     new_var("zero_lvl", ZERO_LVL)
     new_var("Si_lattice", LATTICE)
 
-    lmp.command(f'molecule C60 {INPUT_DIR / "mol.C60"}')
+    lmp.command('molecule C60 "mol.C60"')
     lmp.command(
         "create_atoms 1 single ${C60_x} ${C60_y} ${C60_z} mol C60 1 units box"
     )

@@ -4,7 +4,7 @@ from pathlib import Path
 from pylammpsmpi import LammpsLibrary
 import numpy as np
 
-MPI_CORES = 1
+MPI_CORES = 3
 OMP_THREADS = 4
 OUT_DIR = Path('results')
 INPUT_FILE = Path('fall700.input.data')
@@ -88,6 +88,7 @@ for i in range(1):
     lmp.command('group clusters variable is_sputtered')
     lmp.command('compute clusters clusters cluster/atom 3')
     lmp.command('compute mass clusters property/atom mass')
+    lmp.command('compute ave_clusters_z clusters reduce ave z')
 
     lmp.command(
         f'dump clusters clusters custom 1 {OUT_DIR / "clusters.dump"} id x y z vx vy vz type c_clusters')
@@ -95,4 +96,5 @@ for i in range(1):
     lmp.run(0)
 
     atom_cluster = lmp.extract_compute("clusters", 1, 1)
+    ave_clusters_z = lmp.extract_compute("ave_clusters_z", 0, 0)
     print("finished")
